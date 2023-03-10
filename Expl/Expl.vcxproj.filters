@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Expl">
+      <UniqueIdentifier>{FEF2847C-EA29-860D-9316-6C107F2C020F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Expl.h" />
+    <ClInclude Include="Source\Expl\Application.h">
+      <Filter>Expl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expl\Core.h">
+      <Filter>Expl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expl\EntryPoint.h">
+      <Filter>Expl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Expl\Log.h">
+      <Filter>Expl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Expl\Application.cpp">
+      <Filter>Expl</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Expl\Log.cpp">
+      <Filter>Expl</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
