@@ -9,8 +9,8 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Shipping|x64">
-      <Configuration>Shipping</Configuration>
+    <ProjectConfiguration Include="Dist|x64">
+      <Configuration>Dist</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -34,7 +34,7 @@
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
@@ -49,7 +49,7 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -67,27 +67,28 @@
     <TargetName>Expl</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\Binaries\Shipping-windows-x86_64\Expl\</OutDir>
-    <IntDir>..\Intermediate\Shipping-windows-x86_64Expl\</IntDir>
+    <OutDir>..\Binaries\Dist-windows-x86_64\Expl\</OutDir>
+    <IntDir>..\Intermediate\Dist-windows-x86_64Expl\</IntDir>
     <TargetName>Expl</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>explpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>EX_PLATFORM_WINDOWS;EX_BUILD_DLL;EX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EX_PLATFORM_WINDOWS;EX_BUILD_DLL;GLFW_INCLUDE_NONE;EX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\Expl;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\Binaries\Debug-windows-x86_64\Expl\Expl.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -96,62 +97,88 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>explpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>EX_PLATFORM_WINDOWS;EX_BUILD_DLL;EX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EX_PLATFORM_WINDOWS;EX_BUILD_DLL;GLFW_INCLUDE_NONE;EX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\Expl;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\Binaries\Release-windows-x86_64\Expl\Expl.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
       <Command>IF EXIST ..\Binaries\Release-windows-x86_64\Expl\Expl.dll\ (xcopy /Q /E /Y /I ..\Binaries\Release-windows-x86_64\Expl\Expl.dll ..\Binaries\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Release-windows-x86_64\Expl\Expl.dll ..\Binaries\Release-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>explpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>EX_PLATFORM_WINDOWS;EX_BUILD_DLL;EX_SHIPPING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>EX_PLATFORM_WINDOWS;EX_BUILD_DLL;GLFW_INCLUDE_NONE;EX_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\Expl;vendor\spdlog\include;vendor\glfw\include;vendor\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>..\Binaries\Shipping-windows-x86_64\Expl\Expl.lib</ImportLibrary>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>..\Binaries\Dist-windows-x86_64\Expl\Expl.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\Binaries\Shipping-windows-x86_64\Expl\Expl.dll\ (xcopy /Q /E /Y /I ..\Binaries\Shipping-windows-x86_64\Expl\Expl.dll ..\Binaries\Shipping-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Shipping-windows-x86_64\Expl\Expl.dll ..\Binaries\Shipping-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\Binaries\Dist-windows-x86_64\Expl\Expl.dll\ (xcopy /Q /E /Y /I ..\Binaries\Dist-windows-x86_64\Expl\Expl.dll ..\Binaries\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\Binaries\Dist-windows-x86_64\Expl\Expl.dll ..\Binaries\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Expl.h" />
-    <ClInclude Include="Source\Expl\Application.h" />
-    <ClInclude Include="Source\Expl\Core.h" />
-    <ClInclude Include="Source\Expl\EntryPoint.h" />
-    <ClInclude Include="Source\Expl\Log.h" />
+    <ClInclude Include="src\Expl.h" />
+    <ClInclude Include="src\Expl\Application.h" />
+    <ClInclude Include="src\Expl\Core.h" />
+    <ClInclude Include="src\Expl\EntryPoint.h" />
+    <ClInclude Include="src\Expl\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\Expl\Events\Event.h" />
+    <ClInclude Include="src\Expl\Events\KeyEvent.h" />
+    <ClInclude Include="src\Expl\Events\MouseEvent.h" />
+    <ClInclude Include="src\Expl\Layer.h" />
+    <ClInclude Include="src\Expl\LayerStack.h" />
+    <ClInclude Include="src\Expl\Log.h" />
+    <ClInclude Include="src\Expl\Window.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\explpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Expl\Application.cpp" />
-    <ClCompile Include="Source\Expl\Log.cpp" />
+    <ClCompile Include="src\Expl\Application.cpp" />
+    <ClCompile Include="src\Expl\Layer.cpp" />
+    <ClCompile Include="src\Expl\LayerStack.cpp" />
+    <ClCompile Include="src\Expl\Log.cpp" />
+    <ClCompile Include="src\Expl\Window.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\explpch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="vendor\glfw\glfw.vcxproj">
+      <Project>{9563977C-819A-980D-2A87-7E10169D140F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\glad\glad.vcxproj">
+      <Project>{DD62977C-C999-980D-7286-7E105E9C140F}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

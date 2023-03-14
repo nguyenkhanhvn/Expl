@@ -4,28 +4,75 @@
     <Filter Include="Expl">
       <UniqueIdentifier>{FEF2847C-EA29-860D-9316-6C107F2C020F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Expl\Events">
+      <UniqueIdentifier>{22950730-8E4A-8025-173F-7AFC83F37629}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Expl.h" />
-    <ClInclude Include="Source\Expl\Application.h">
+    <ClInclude Include="src\Expl.h" />
+    <ClInclude Include="src\Expl\Application.h">
       <Filter>Expl</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Expl\Core.h">
+    <ClInclude Include="src\Expl\Core.h">
       <Filter>Expl</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Expl\EntryPoint.h">
+    <ClInclude Include="src\Expl\EntryPoint.h">
       <Filter>Expl</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Expl\Log.h">
+    <ClInclude Include="src\Expl\Events\ApplicationEvent.h">
+      <Filter>Expl\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expl\Events\Event.h">
+      <Filter>Expl\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expl\Events\KeyEvent.h">
+      <Filter>Expl\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expl\Events\MouseEvent.h">
+      <Filter>Expl\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expl\Layer.h">
       <Filter>Expl</Filter>
     </ClInclude>
+    <ClInclude Include="src\Expl\LayerStack.h">
+      <Filter>Expl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expl\Log.h">
+      <Filter>Expl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expl\Window.h">
+      <Filter>Expl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\explpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Expl\Application.cpp">
+    <ClCompile Include="src\Expl\Application.cpp">
       <Filter>Expl</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Expl\Log.cpp">
+    <ClCompile Include="src\Expl\Layer.cpp">
       <Filter>Expl</Filter>
     </ClCompile>
+    <ClCompile Include="src\Expl\LayerStack.cpp">
+      <Filter>Expl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Expl\Log.cpp">
+      <Filter>Expl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Expl\Window.cpp">
+      <Filter>Expl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\explpch.cpp" />
   </ItemGroup>
 </Project>

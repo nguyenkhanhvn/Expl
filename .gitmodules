@@ -1,3 +1,6 @@
 [submodule "Expl/vendor/spdlog"]
 	path = Expl/vendor/spdlog
 	url = git@github.com:gabime/spdlog.git
+[submodule "Expl/vendor/glfw"]
+	path = Expl/vendor/glfw
+	url = git@github.com:nguyenkhanhvn/glfw.git
