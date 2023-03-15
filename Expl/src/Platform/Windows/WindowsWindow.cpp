@@ -1,10 +1,10 @@
 #include "explpch.h"
 #include "WindowsWindow.h"
 
-#include "Log.h"
-#include "Events/ApplicationEvent.h"
-#include "Events/KeyEvent.h"
-#include "Events/MouseEvent.h"
+#include "Expl/Log.h"
+#include "Expl/Events/ApplicationEvent.h"
+#include "Expl/Events/KeyEvent.h"
+#include "Expl/Events/MouseEvent.h"
 
 #include "glad/glad.h"
 

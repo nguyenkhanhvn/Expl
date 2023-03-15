@@ -354,5 +354,8 @@ MigrationBackup/
 Binaries/
 Build/
 Intermediate/
+*.sln
+*.vcxproj
 *.vcxproj.user
+*.vcxproj.filters
 
