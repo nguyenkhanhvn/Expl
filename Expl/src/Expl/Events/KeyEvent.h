@@ -14,6 +14,7 @@ namespace EXPL {
 	protected:
 		int m_KeyCode;
 
+	protected:
 		KeyEvent(int keyCode): m_KeyCode(keyCode) {}
 	};
 

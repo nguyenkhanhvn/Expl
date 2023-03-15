@@ -59,7 +59,61 @@ namespace EXPL {
 
 	void ImGuiLayer::OnEvent(Event& e)
 	{
-		
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseButtonPressedEvent, this));
+		dispatcher.Dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseButtonReleasedEvent, this));
+		dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseMovedEvent, this));
+		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseScrolledEvent, this));
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onKeyPressedEvent, this));
+		dispatcher.Dispatch<KeyReleasedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onKeyReleasedEvent, this));
+		//dispatcher.Dispatch<KeyTypedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onKeyTypedEvent, this));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onWindowResizedEvent, this));
+	}
+
+	bool ImGuiLayer::onMouseButtonPressedEvent(MouseButtonPressedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddMouseButtonEvent(e.GetMouseButton(), true);
+
+		return false;
+	}
+
+	bool ImGuiLayer::onMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddMouseButtonEvent(e.GetMouseButton(), false);
+
+		return false;
+	}
+
+	bool ImGuiLayer::onMouseMovedEvent(MouseMovedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddMousePosEvent(e.GetX(), e.GetY());
+
+		return false;
+	}
+
+	bool ImGuiLayer::onMouseScrolledEvent(MouseScrolledEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddMouseWheelEvent(e.GetXOffset(), e.GetYOffset());
+		return false;
+	}
+
+	bool ImGuiLayer::onKeyPressedEvent(KeyPressedEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::onKeyReleasedEvent(KeyReleasedEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::onWindowResizedEvent(WindowResizeEvent& e)
+	{
+		return false;
 	}
 
 }

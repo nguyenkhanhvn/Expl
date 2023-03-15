@@ -33,7 +33,7 @@ namespace EXPL {
 	public:
 		bool Handled = false;
 
-
+	public:
 		virtual ~Event() = default;
 
 		virtual EventType GetEventType() const = 0;

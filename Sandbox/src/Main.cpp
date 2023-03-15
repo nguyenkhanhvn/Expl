@@ -9,13 +9,11 @@ public:
 
 	void OnUpdate() override
 	{
-		EX_INFO("Example Layer:: Update");
 	}
 
 
 	void OnEvent(EXPL::Event& e) override
 	{
-		EX_INFO("{0}", e.ToString());
 	}
 
 };

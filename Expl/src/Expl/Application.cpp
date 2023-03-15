@@ -7,8 +7,6 @@
 
 namespace EXPL {
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
@@ -17,7 +15,7 @@ namespace EXPL {
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(onEvent));
+		m_Window->SetEventCallback(BIND_EVENT_FN_OneParam(Application::onEvent, this));
 	}
 
 	Application::~Application()
@@ -54,9 +52,7 @@ namespace EXPL {
 	void Application::onEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClose));
-
-		EX_CORE_TRACE("{0}", e.ToString());
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN_OneParam(Application::onWindowClose, this));
 
 		for (auto it = m_LayerStack.end(); it > m_LayerStack.begin(); )
 		{

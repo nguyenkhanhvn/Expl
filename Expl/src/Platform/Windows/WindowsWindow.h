@@ -24,6 +24,10 @@ namespace EXPL {
 		inline bool IsVSync() const override { return m_Data.VSync; }
 
 	private:
+		void Init(const WindowProps& props);
+		void Shutdown();
+
+	private:
 		GLFWwindow* m_Window;
 		
 		struct WindowData
@@ -36,10 +40,6 @@ namespace EXPL {
 		};
 
 		WindowData m_Data;
-
-
-		void Init(const WindowProps& props);
-		void Shutdown();
 
 	};
 

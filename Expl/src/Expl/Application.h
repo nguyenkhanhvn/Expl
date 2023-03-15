@@ -10,9 +10,10 @@ namespace EXPL {
 	class EX_API Application
 	{
 	public:
+		Application();
+		virtual ~Application();
 
 		inline static Application& Get() { return *s_Instance; }
-		virtual ~Application();
 
 		void Run();
 
@@ -21,8 +22,9 @@ namespace EXPL {
 
 		inline Window& GetWindow() { return *m_Window; }
 
-	protected:
-		Application();
+	private:
+		void onEvent(Event& e);
+		bool onWindowClose(WindowCloseEvent& e);
 
 	private:
 		static Application* s_Instance;
@@ -31,10 +33,6 @@ namespace EXPL {
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;
-
-
-		void onEvent(Event& e);
-		bool onWindowClose(WindowCloseEvent& e);
 	};
 
 	// To be define in CLIENT

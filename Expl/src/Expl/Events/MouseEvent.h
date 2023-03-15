@@ -21,6 +21,7 @@ namespace EXPL {
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 		EVENT_CLASS_TYPE(MouseMoved)
+
 	private:
 		float m_MouseX, m_MouseY;
 	};
@@ -42,6 +43,7 @@ namespace EXPL {
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 		EVENT_CLASS_TYPE(MouseScrolled)
+
 	private:
 		float m_XOffset, m_YOffset;
 	};
@@ -53,11 +55,14 @@ namespace EXPL {
 		int GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
+
+	protected:
+		int m_Button;
+
 	protected:
 		MouseButtonEvent(int button)
 			: m_Button(button) {}
 
-		int m_Button;
 	};
 
 	class MouseButtonPressedEvent : public MouseButtonEvent
@@ -89,7 +94,7 @@ namespace EXPL {
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(MouseButtonPressed)
+		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
 
 }

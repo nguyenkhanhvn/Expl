@@ -20,3 +20,6 @@
 
 
 #define BIT(x) (1 << x)
+
+#define BIND_EVENT_FN(fn, obj) std::bind(&fn, obj)
+#define BIND_EVENT_FN_OneParam(fn, obj) std::bind(&fn, obj, std::placeholders::_1)
