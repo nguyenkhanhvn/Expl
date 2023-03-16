@@ -2,6 +2,7 @@
 
 #include "Core.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 
 #define EX_CORE_TRACE(...) ::EXPL::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define EX_CORE_INFO(...) ::EXPL::Log::GetCoreLogger()->info(__VA_ARGS__)
@@ -32,5 +33,33 @@ namespace EXPL {
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;
 		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 	};
+
 }
+
+
+/*
+// To log custom type
+// Option 1:
+#include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h" // must be included
+inline std::ostream& operator<<(std::ostream& os, const Event& e)
+{
+	return os << e.ToString();
+}
+
+
+// Option 2:
+template<>
+struct fmt::formatter<EXPL::Event> {
+	constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {
+		return ctx.end();
+	}
+
+	template <typename FormatContext>
+	auto format(const EXPL::Event& input, FormatContext& ctx) -> decltype(ctx.out()) {
+		return format_to(ctx.out(), input.ToString());
+	}
+};
+
+*/
 

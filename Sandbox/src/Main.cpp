@@ -1,11 +1,13 @@
 #include "Expl.h"
 
+
 class ExampleLayer : public EXPL::Layer
 {
 public:
 	ExampleLayer()
 		:Layer("Example Layer")
-	{}
+	{
+	}
 
 	void OnUpdate() override
 	{
@@ -24,7 +26,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushLayer(new EXPL::ImGuiLayer());
 	}
 };
 

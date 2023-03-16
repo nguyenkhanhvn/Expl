@@ -1,23 +1,23 @@
 project "glad"
-	kind "StaticLib"
-	language "C"
-	staticruntime "off"
+    kind "StaticLib"
+    language "C"
+    staticruntime "on"
 
-	targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
-	objdir ("Intermediate/" .. outputdir .. "%{prj.name}")
+    targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
+    objdir ("Intermediate/" .. outputdir .. "%{prj.name}")
 
-	files
-	{
-		"include/glad/glad.h",
-		"include/KHR/khrplatform.h",
-		"src/glad.c",
-	}
+    files
+    {
+        "include/glad/glad.h",
+        "include/KHR/khrplatform.h",
+        "src/glad.c",
+    }
 
     includedirs
     {
-        "include"
+        "include",
     }
-	
+
     filter "system:windows"
         systemversion "latest"
 
@@ -26,5 +26,9 @@ project "glad"
         symbols "on"
 
     filter "configurations:Release"
+        runtime "Release"
+        optimize "on"
+
+    filter "configurations:Dist"
         runtime "Release"
         optimize "on"

@@ -77,4 +77,9 @@ namespace EXPL {
 	private:
 		Event& m_Event;
 	};
+
+	LOG_IMPLEMENT(Event)
+
 }
+
+

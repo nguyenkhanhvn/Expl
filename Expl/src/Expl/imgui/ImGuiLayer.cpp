@@ -2,8 +2,10 @@
 #include "ImGuiLayer.h"
 
 #include "Expl/Application.h"
-#include "Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "Expl/KeyCode.h"
+
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -13,7 +15,7 @@ namespace EXPL {
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
 	{
-
+		EX_CORE_ASSERT(IMGUI_CHECKVERSION(), "ImGui check version failed!");
 	}
 
 	ImGuiLayer::~ImGuiLayer()
@@ -32,111 +34,52 @@ namespace EXPL {
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
 
+		ImGui_ImplGlfw_InitForOpenGL(static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow()), true);
 		ImGui_ImplOpenGL3_Init("#version 410");
-
-		Application& app = Application::Get();
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 	}
 
 	void ImGuiLayer::OnDetach()
 	{
-		throw std::logic_error("The method or operation is not implemented.");
+		// Cleanup
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::OnUpdate()
+	void ImGuiLayer::OnImGuiRender()
+	{
+		bool show = true;
+		ImGui::ShowDemoWindow(&show);
+	}
+
+	void ImGuiLayer::Begin()
+	{
+		// Start the Dear ImGui frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+	}
+
+	void ImGuiLayer::End()
 	{
 		ImGuiIO& io = ImGui::GetIO();
+		Window& window = Application::Get().GetWindow();
+		io.DisplaySize = ImVec2((float)window.GetWidth(), (float)window.GetHeight());
 
-		float time = (float)glfwGetTime();
-		io.DeltaTime = m_time > 0.0f ? (time - m_time) : (1.0f / 60.0f);
-		m_time = time;
-
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui::NewFrame();
-
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-
+		// Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	}
 
-	void ImGuiLayer::OnEvent(Event& e)
-	{
-		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseButtonPressedEvent, this));
-		dispatcher.Dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseButtonReleasedEvent, this));
-		dispatcher.Dispatch<MouseMovedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseMovedEvent, this));
-		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onMouseScrolledEvent, this));
-		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onKeyPressedEvent, this));
-		dispatcher.Dispatch<KeyReleasedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onKeyReleasedEvent, this));
-		dispatcher.Dispatch<KeyTypedEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onKeyTypedEvent, this));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN_OneParam(ImGuiLayer::onWindowResizedEvent, this));
-	}
-
-	bool ImGuiLayer::onMouseButtonPressedEvent(MouseButtonPressedEvent& e)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddMouseButtonEvent(e.GetMouseButton(), true);
-
-		return false;
-	}
-
-	bool ImGuiLayer::onMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddMouseButtonEvent(e.GetMouseButton(), false);
-
-		return false;
-	}
-
-	bool ImGuiLayer::onMouseMovedEvent(MouseMovedEvent& e)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddMousePosEvent(e.GetX(), e.GetY());
-
-		return false;
-	}
-
-	bool ImGuiLayer::onMouseScrolledEvent(MouseScrolledEvent& e)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddMouseWheelEvent(e.GetXOffset(), e.GetYOffset());
-		return false;
-	}
-
-	bool ImGuiLayer::onKeyPressedEvent(KeyPressedEvent& e)
-	{
-		ImGuiKey imgui_key = ImGui_KeyToImGuiKey(e.GetKeyCode());
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddKeyEvent(imgui_key, true);
-		return false;
-	}
-
-	bool ImGuiLayer::onKeyReleasedEvent(KeyReleasedEvent& e)
-	{
-		ImGuiKey imgui_key = ImGui_KeyToImGuiKey(e.GetKeyCode());
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddKeyEvent(imgui_key, false);
-		return false;
-	}
-
-	bool ImGuiLayer::onKeyTypedEvent(KeyTypedEvent& e)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.AddInputCharacter(e.GetKeyCode());
-
-		return false;
-	}
-
-	bool ImGuiLayer::onWindowResizedEvent(WindowResizeEvent& e)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(e.GetWidth(), e.GetHeight());
-		//io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
-		glViewport(0, 0, e.GetWidth(), e.GetHeight());
-
-		return false;
+		// Update and Render additional Platform Windows
+		// (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+		//  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 	}
 
 	ImGuiKey ImGui_KeyToImGuiKey(int key)

@@ -15,7 +15,7 @@ namespace EXPL {
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseMoveEvent: (" << m_MouseX << ", " << m_MouseY << ")" << std::endl;
+			ss << "MouseMoveEvent: (" << m_MouseX << ", " << m_MouseY << ")";
 			return ss.str();
 		}
 
@@ -37,7 +37,7 @@ namespace EXPL {
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseScrolledEvent: " << m_XOffset << ", " << m_YOffset << std::endl;
+			ss << "MouseScrolledEvent: " << m_XOffset << ", " << m_YOffset;
 			return ss.str();
 		}
 

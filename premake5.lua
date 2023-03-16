@@ -16,6 +16,7 @@ IncludeDir["spdlog"] = "Expl/vendor/spdlog/include"
 IncludeDir["glfw"] = "Expl/vendor/glfw/include"
 IncludeDir["glad"] = "Expl/vendor/glad/include"
 IncludeDir["imgui"] = "Expl/vendor/imgui"
+IncludeDir["glm"] = "Expl/vendor/glm"
 
 include "Expl/vendor/glfw"
 include "Expl/vendor/glad"
@@ -23,10 +24,10 @@ include "Expl/vendor/imgui"
 
 project "Expl"
 	location "Expl"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "Off"
+	staticruntime "on"
 
 	targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
 	objdir ("Intermediate/" .. outputdir .. "%{prj.name}")
@@ -47,6 +48,12 @@ project "Expl"
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
+		"%{IncludeDir.glm}",
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
 	}
 
 	links
@@ -64,29 +71,24 @@ project "Expl"
 		{
 			"EX_PLATFORM_WINDOWS",
 			"EX_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
-		}
-		
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../Binaries/" .. outputdir .. "/Sandbox/\"")
+			"GLFW_INCLUDE_NONE",
 		}
 
 
 	filter "configurations:Debug"
 		defines "EX_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 		
 	filter "configurations:Release"
 		defines "EX_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "EX_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 
 project "Sandbox"
@@ -94,7 +96,7 @@ project "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "Off"
+	staticruntime "on"
 
 	targetdir ("Binaries/" .. outputdir .. "/%{prj.name}")
 	objdir ("Intermediate/" .. outputdir .. "%{prj.name}")
@@ -109,12 +111,13 @@ project "Sandbox"
 	{
 		"Expl/src",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.imgui}"
+		"%{IncludeDir.imgui}",
+		"%{IncludeDir.glm}",
 	}
 
 	links
 	{
-		"Expl"
+		"Expl",
 	}
 
 	filter "system:windows"
@@ -122,20 +125,20 @@ project "Sandbox"
 
 		defines
 		{
-			"EX_PLATFORM_WINDOWS"
+			"EX_PLATFORM_WINDOWS",
 		}
 
 	filter "configurations:Debug"
 		defines "EX_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 		
 	filter "configurations:Release"
 		defines "EX_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "EX_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "Events/ApplicationEvent.h"
 #include "LayerStack.h"
+#include "imgui/ImGuiLayer.h"
 
 namespace EXPL {
 
@@ -33,6 +34,7 @@ namespace EXPL {
 		bool m_Running = true;
 
 		LayerStack m_LayerStack;
+		std::unique_ptr<ImGuiLayer> m_ImGuiLayer;
 	};
 
 	// To be define in CLIENT

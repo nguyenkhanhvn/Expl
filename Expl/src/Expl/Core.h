@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef EX_PLATFORM_WINDOWS
-	#ifdef EX_BUILD_DLL
-		#define EX_API __declspec(dllexport)
+	#ifdef EX_DYNAMIC_LINK
+		#ifdef EX_BUILD_DLL
+			#define EX_API __declspec(dllexport)
+		#else
+			#define EX_API __declspec(dllimport)
+		#endif // EX_BUILD_DLL
 	#else
-		#define EX_API __declspec(dllimport)
-	#endif // EX_BUILD_DLL
+		#define EX_API
+	#endif // EX_DYNAMIC_LINK
 #else
 	#error Platform not support!
 #endif // EX_PLATFORM_WINDOWS
@@ -27,3 +31,5 @@
 
 #define BIND_EVENT_FN(fn, obj) std::bind(&fn, obj)
 #define BIND_EVENT_FN_OneParam(fn, obj) std::bind(&fn, obj, std::placeholders::_1)
+
+#define LOG_IMPLEMENT(x) inline std::ostream& operator<<(std::ostream& os, const x& input) { return os << input.ToString(); }

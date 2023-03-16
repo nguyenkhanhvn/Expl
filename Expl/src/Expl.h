@@ -19,7 +19,6 @@
 #include "Expl/Events/KeyEvent.h"
 #include "Expl/Events/MouseEvent.h"
 
-#include "Expl/imgui/ImGuiLayer.h"
 
 // --------------Entry-Point--------------
 #include "Expl/EntryPoint.h"
