@@ -2,8 +2,10 @@
 #include "Application.h"
 
 #include "Log.h"
+#include "Input.h"
 
 #include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 namespace EXPL {
 
@@ -32,6 +34,9 @@ namespace EXPL {
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			auto [x, y] = Input::GetMousePosition();
+			EX_CORE_TRACE("Mouse pos: {0}, {1}", x, y);
 
 			m_Window->OnUpdate();
 		}

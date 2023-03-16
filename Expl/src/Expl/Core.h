@@ -10,6 +10,10 @@
 	#error Platform not support!
 #endif // EX_PLATFORM_WINDOWS
 
+#ifdef EX_DEBUG
+	#define EX_ENABLE_ASSERTS
+#endif
+
 #ifdef EX_ENABLE_ASSERTS
 	#define EX_ASSERT(x, ...) { if (!(x)) { EX_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define EX_CORE_ASSERT(x, ...) { if (!(x)) { EX_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }

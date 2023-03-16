@@ -23,6 +23,8 @@ namespace EXPL {
 		void SetVSync(bool enabled) override;
 		inline bool IsVSync() const override { return m_Data.VSync; }
 
+		inline virtual void* GetNativeWindow() const override { return m_Window; }
+
 	private:
 		void Init(const WindowProps& props);
 		void Shutdown();

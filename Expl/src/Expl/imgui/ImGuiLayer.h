@@ -26,7 +26,7 @@ namespace EXPL {
 
 		bool onKeyPressedEvent(KeyPressedEvent& e);
 		bool onKeyReleasedEvent(KeyReleasedEvent& e);
-		//bool onKeyTypedEvent(KeyTypeEvent& e);
+		bool onKeyTypedEvent(KeyTypedEvent& e);
 
 		bool onWindowResizedEvent(WindowResizeEvent& e);
 
@@ -34,6 +34,8 @@ namespace EXPL {
 		float m_time = 0.0f;
 
 	};
+
+	int ImGui_ImplGlfw_KeyToImGuiKey(int key);
 
 }
 
