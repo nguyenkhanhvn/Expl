@@ -11,6 +11,9 @@
 #include "Expl/Layer.h"
 #include "Expl/LayerStack.h"
 
+#include "Expl/KeyCode.h"
+#include "Expl/MouseButtonCode.h"
+
 #include "Expl/Events/Event.h"
 #include "Expl/Events/ApplicationEvent.h"
 #include "Expl/Events/KeyEvent.h"

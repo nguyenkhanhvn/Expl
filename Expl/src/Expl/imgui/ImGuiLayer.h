@@ -5,6 +5,8 @@
 #include "Expl/Events/KeyEvent.h"
 #include "Expl/Events/MouseEvent.h"
 
+#include "imgui.h"
+
 namespace EXPL {
 
 	class EX_API ImGuiLayer :public Layer
@@ -35,7 +37,7 @@ namespace EXPL {
 
 	};
 
-	int ImGui_ImplGlfw_KeyToImGuiKey(int key);
+	ImGuiKey ImGui_KeyToImGuiKey(int key);
 
 }
 

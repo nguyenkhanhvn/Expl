@@ -12,6 +12,7 @@ workspace "Expl"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
+IncludeDir["spdlog"] = "Expl/vendor/spdlog/include"
 IncludeDir["glfw"] = "Expl/vendor/glfw/include"
 IncludeDir["glad"] = "Expl/vendor/glad/include"
 IncludeDir["imgui"] = "Expl/vendor/imgui"
@@ -42,7 +43,7 @@ project "Expl"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
@@ -106,8 +107,9 @@ project "Sandbox"
 
 	includedirs
 	{
-		"Expl/vendor/spdlog/include",
-		"Expl/src"
+		"Expl/src",
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.imgui}"
 	}
 
 	links
