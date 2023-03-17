@@ -3,6 +3,7 @@
 #include "Expl/Window.h"
 
 #include "GLFW/glfw3.h"
+#include "Expl/Renderer/GraphicsContext.h"
 
 namespace EXPL {
 
@@ -31,6 +32,7 @@ namespace EXPL {
 
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 		
 		struct WindowData
 		{

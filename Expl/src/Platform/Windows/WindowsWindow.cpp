@@ -1,6 +1,8 @@
 #include "explpch.h"
 #include "WindowsWindow.h"
 
+#include "Platform/OpenGL/OpenGLContext.h"
+
 #include "Expl/Log.h"
 #include "Expl/Events/ApplicationEvent.h"
 #include "Expl/Events/KeyEvent.h"
@@ -34,8 +36,7 @@ namespace EXPL {
 
 	void WindowsWindow::OnUpdate()
 	{
-		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
@@ -61,16 +62,17 @@ namespace EXPL {
 			// TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
 			EX_CORE_ASSERT(success, "Could not initialize GLFW!");
-			
+
 			glfwSetErrorCallback(GLFWErrorCallback);
 
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		EX_CORE_ASSERT(status, "Failed to initialize Glad!");
+		m_Context = new OpenGLContext((int)m_Data.Width, (int)m_Data.Height, m_Data.Title.c_str());
+		m_Context->Init();
+		m_Window = static_cast<OpenGLContext*>(m_Context)->GetWindow();
+
+		
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 

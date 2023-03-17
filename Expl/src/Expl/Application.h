@@ -5,6 +5,9 @@
 #include "Events/ApplicationEvent.h"
 #include "LayerStack.h"
 #include "imgui/ImGuiLayer.h"
+#include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
+#include "Renderer/Buffer.h"
 
 namespace EXPL {
 
@@ -35,6 +38,10 @@ namespace EXPL {
 
 		LayerStack m_LayerStack;
 		std::unique_ptr<ImGuiLayer> m_ImGuiLayer;
+
+		unsigned int m_va;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> m_VertexArray;
 	};
 
 	// To be define in CLIENT

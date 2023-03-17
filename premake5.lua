@@ -17,6 +17,8 @@ IncludeDir["glfw"] = "Expl/vendor/glfw/include"
 IncludeDir["glad"] = "Expl/vendor/glad/include"
 IncludeDir["imgui"] = "Expl/vendor/imgui"
 IncludeDir["glm"] = "Expl/vendor/glm"
+IncludeDir["stb"] = "Expl/vendor/stb"
+IncludeDir["json"] = "Expl/vendor/json"
 
 include "Expl/vendor/glfw"
 include "Expl/vendor/glad"
@@ -49,6 +51,8 @@ project "Expl"
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.json}",
 	}
 
 	defines
@@ -111,8 +115,11 @@ project "Sandbox"
 	{
 		"Expl/src",
 		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.json}",
 	}
 
 	links

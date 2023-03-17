@@ -42,21 +42,21 @@ namespace EXPL {
 // Option 1:
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h" // must be included
-inline std::ostream& operator<<(std::ostream& os, const Event& e)
+inline std::ostream& operator<<(std::ostream& os, const CustomType& data)
 {
-	return os << e.ToString();
+	return os << data.ToString();
 }
 
 
 // Option 2:
 template<>
-struct fmt::formatter<EXPL::Event> {
+struct fmt::formatter<CustomType> {
 	constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {
 		return ctx.end();
 	}
 
 	template <typename FormatContext>
-	auto format(const EXPL::Event& input, FormatContext& ctx) -> decltype(ctx.out()) {
+	auto format(const CustomType& input, FormatContext& ctx) -> decltype(ctx.out()) {
 		return format_to(ctx.out(), input.ToString());
 	}
 };
